@@ -1,5 +1,5 @@
-import { IMovie } from "./models/Movie";
-import { getData } from "./services/movieservice";
+import { IMovie } from "./models/IMovie";
+import { getData } from "./services/movieService";
 
 let movies: IMovie[] = [];
 
@@ -49,6 +49,7 @@ export const createHtml = (movies: IMovie[], container: HTMLDivElement) => {
 
     container.appendChild(movie);
   }
+  console.log(movies);
 };
 
 export const displayNoResult = (container: HTMLDivElement) => {
