@@ -1,24 +1,55 @@
 import { movieSort } from "../ts/functions";
 import { IMovie } from "../ts/models/IMovie";
-
-//jest.mock("./../ts/services/movieService");
+import { mockMovies } from "../ts/services/__mocks__/movieService";
 
 describe("movieSort in functions.ts", () => {
-  test("Should sort by title", () => {
-    let movies = [
+  let movies: IMovie[] = mockMovies;
+
+  test("If boolean is true", () => {
+    //Act
+    movieSort(movies, true);
+
+    //Assert
+    expect(movies[0].Title).toEqual("Die Hard Adam");
+  });
+
+  test("If boolean is false", () => {
+    //Act
+    movieSort(movies, false);
+
+    //Assert
+    expect(movies[0].Title).toEqual("Die Hard Per");
+  });
+
+  test("This feels wrong, because this just to remove the last statement :(", () => {
+    let movies: IMovie[] = [
       {
-        Title: "LOTR",
-        Type: "Movie",
-        Poster: "http;//...",
-        Year: "2000",
-        imdbID: "...",
+        Title: "Die Hard Bax",
+        Poster: "HarryPoster",
+        Type: "movie",
+        imdbID: "432432",
+        Year: "2002",
+      },
+      {
+        Title: "Die Hard Bax",
+        Poster: "HarryPoster",
+        Type: "movie",
+        imdbID: "432432",
+        Year: "2002",
+      },
+      {
+        Title: "Die Hard Aax",
+        Poster: "HarryPoster",
+        Type: "movie",
+        imdbID: "432432",
+        Year: "2002",
       },
     ];
 
-    movieSort(movies, true);
+    //act
+    movieSort(movies, false);
 
-    expect(movies.length).toBe(1);
-    expect(movies[0].Title).toBe("LOTR");
+    //assert
+    expect(movies[0].Title).toEqual("Die Hard Bax");
   });
-  // test("Should sort by title", () => {});
 });

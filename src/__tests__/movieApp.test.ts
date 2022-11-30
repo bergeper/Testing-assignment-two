@@ -46,7 +46,6 @@ describe("handleSubmit", () => {
 
     let searchText: string = "Sebbe";
     movies = await servicesFN.getData(searchText);
-    console.log(movies);
 
     //Act
     mainFN.handleSubmit();
@@ -66,14 +65,32 @@ describe("createHTML", () => {
       "movie-container"
     ) as HTMLDivElement;
 
-    let searchText: string = "Lotr";
-    let movies = await servicesFN.getData(searchText);
+    let searchText: string = "SebbeKingen";
+    let movies: IMovie[] = await servicesFN.getData(searchText);
 
     //Act
-    await mainFN.createHtml(movies, container);
+    mainFN.createHtml(movies, container);
 
     //Assert
-    expect(document.querySelectorAll("div.movie").length).toBe(5);
-    console.log(movies);
+    //Looking for divs with className movie otherwise container will be shown in the awnser aswell.
+    expect(document.querySelectorAll("div.movie").length).toBe(4);
+    expect(document.querySelectorAll("h3").length).toBe(4);
+    expect(document.querySelectorAll("img").length).toBe(4);
+  });
+});
+
+describe("displayNoResult", () => {
+  test("Should show text no results shown", () => {
+    //Arrange
+    document.body.innerHTML = `<div id="movie-container"></div>`;
+    let container: HTMLDivElement = document.getElementById(
+      "movie-container"
+    ) as HTMLDivElement;
+
+    //Act
+    mainFN.displayNoResult(container);
+
+    //Assert
+    expect(container.innerHTML).toBe("<p>Inga sökresultat att visa</p>");
   });
 });
