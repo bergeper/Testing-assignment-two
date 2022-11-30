@@ -7,7 +7,7 @@ describe("movieSort in functions.ts", () => {
 
   test("If boolean is true", () => {
     //Act
-    movieSort(movies, true);
+    movieSort(movies);
 
     //Assert
     expect(movies[0].Title).toEqual("Die Hard Adam");

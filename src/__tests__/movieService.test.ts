@@ -48,7 +48,7 @@ jest.mock("axios", () => ({
 }));
 
 describe("getData in movieservice.ts", () => {
-  test("Should get response from axiosResponse", async () => {
+  test("Should get response from AxiosResponse", async () => {
     //arrange
     let searchText: string = "Lord";
 
@@ -61,4 +61,5 @@ describe("getData in movieservice.ts", () => {
     expect(movies[0].Title).toBe("Max-Tacos");
     expect(movies[1].Title).toBe("Adams-Päron");
   });
+  //test("Should not get response from AxiosResponse", () => {});
 });

@@ -32,10 +32,8 @@ describe("init", () => {
   });
 });
 
-/*
 describe("handleSubmit", () => {
   test("should get input", async () => {
-
     //Arrange
     document.body.innerHTML = `
     <input type="text" id="searchText" placeholder="Skriv titel här" />
@@ -53,10 +51,7 @@ describe("handleSubmit", () => {
     //Assert
     expect(movies.length).toBeGreaterThan(0);
   });
-  
 });
-*/
-
 describe("createHTML", () => {
   test("Should create HTML for list", async () => {
     //Arrange
