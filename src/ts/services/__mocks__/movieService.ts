@@ -1,6 +1,6 @@
 import { IMovie } from "../../models/IMovie";
 
-export let mockMovies: IMovie[] = [
+export const mockMovies: IMovie[] = [
   {
     Title: "Die Hard Max",
     Poster: "MTPoster",
@@ -31,8 +31,12 @@ export let mockMovies: IMovie[] = [
   },
 ];
 
-export const getData = async (): Promise<IMovie[]> => {
-  return new Promise((resolve) => {
-    resolve(mockMovies);
+export const getData = async (searchText: string): Promise<IMovie[]> => {
+  return new Promise((resolve, reject) => {
+    if (searchText.length > 3) {
+      resolve(mockMovies);
+    } else {
+      reject({ data: [] });
+    }
   });
 };

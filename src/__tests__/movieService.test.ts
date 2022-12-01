@@ -1,48 +1,45 @@
 import { IMovie } from "../ts/models/IMovie";
 import { getData } from "../ts/services/movieService";
 
-let mockMovies: IMovie[] = [
+const mockMovies: IMovie[] = [
   {
-    Title: "Max-Tacos",
+    Title: "Die Hard Max",
     Poster: "MTPoster",
     Type: "movie",
     imdbID: "123421421",
     Year: "2000",
   },
   {
-    Title: "Adams-Päron",
+    Title: "Die Hard Adam",
     Poster: "APPoster",
     Type: "movie",
     imdbID: "3213123",
     Year: "2006",
   },
   {
-    Title: "Die-Hard-Per",
+    Title: "Die Hard Per",
     Poster: "DHPoster",
     Type: "movie",
     imdbID: "32132122",
     Year: "1999",
   },
   {
-    Title: "Harry",
+    Title: "Die Hard Max",
     Poster: "HarryPoster",
     Type: "movie",
     imdbID: "432432",
     Year: "2002",
   },
-  {
-    Title: "Peter-Panncake",
-    Poster: "PanncakePoster",
-    Type: "Movie",
-    imdbID: "123057324",
-    Year: "1910",
-  },
 ];
 
 jest.mock("axios", () => ({
-  get: async () => {
-    return new Promise((resolve) => {
-      resolve({ data: { Search: mockMovies } });
+  get: async (searchText: string) => {
+    return new Promise((resolve, reject) => {
+      if (searchText.length > 3) {
+        resolve({ data: { Search: mockMovies } });
+      } else {
+        reject({ data: [] });
+      }
     });
   },
 }));
@@ -50,16 +47,26 @@ jest.mock("axios", () => ({
 describe("getData in movieservice.ts", () => {
   test("Should get response from AxiosResponse", async () => {
     //arrange
-    let searchText: string = "Lord";
 
+    let searchText: string = "";
     //act
     let movies: IMovie[] = await getData(searchText);
 
     //assert
-    expect(movies.length).toBe(5);
+    expect(movies.length).toBe(4);
     expect(movies.length).toBeGreaterThan(0);
-    expect(movies[0].Title).toBe("Max-Tacos");
-    expect(movies[1].Title).toBe("Adams-Päron");
+    expect(movies[0].Title).toBe("Die Hard Max");
+    expect(movies[1].Title).toBe("Die Hard Adam");
   });
-  //test("Should not get response from AxiosResponse", () => {});
+
+  test("Should not get response from AxiosResponse", async () => {
+    let searchText: string = "Sebbekingen";
+    let moviesFail: IMovie[] = [];
+
+    try {
+      moviesFail = await getData(searchText);
+    } catch (movies: any) {
+      expect(movies.data.length).toBe(0);
+    }
+  });
 });
