@@ -21,7 +21,7 @@ describe("movieSort in functions.ts", () => {
     expect(movies[0].Title).toEqual("Die Hard Per");
   });
 
-  test("This feels wrong, because this just to remove the last statement :(", () => {
+  test("Should not be able to sort after the first sort because two Titles are matching", () => {
     let movies: IMovie[] = [
       {
         Title: "Die Hard Bax",
