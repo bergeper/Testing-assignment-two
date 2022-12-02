@@ -37,8 +37,8 @@ jest.mock("axios", () => ({
     return new Promise((resolve, reject) => {
       let queryString = searchText;
       let usp = new URLSearchParams(queryString);
-      let s = usp.get("s");
-      let newSearchText = `${s}`;
+      let search = usp.get("s");
+      let newSearchText = `${search}`;
 
       if (newSearchText.length > 3) {
         resolve({ data: { Search: mockMovies } });
@@ -52,8 +52,8 @@ jest.mock("axios", () => ({
 describe("getData in movieservice.ts", () => {
   test("Should get response from AxiosResponse", async () => {
     //arrange
-
     let searchText: string = "Sebbekingen";
+
     //act
     let movies: IMovie[] = await getData(searchText);
 
