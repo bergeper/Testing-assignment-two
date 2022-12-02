@@ -46,10 +46,10 @@ describe("movieSort in functions.ts", () => {
       },
     ];
 
-    //act
+    //Act
     movieSort(movies, false);
 
-    //assert
+    //Assert
     expect(movies[0].Title).toEqual("Die Hard Bax");
   });
 });
