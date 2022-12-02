@@ -1,7 +1,7 @@
 import { IMovie } from "../ts/models/IMovie";
 import { getData } from "../ts/services/movieService";
 
-const mockMovies: IMovie[] = [
+let mockMovies: IMovie[] = [
   {
     Title: "Die Hard Max",
     Poster: "MTPoster",
@@ -35,7 +35,12 @@ const mockMovies: IMovie[] = [
 jest.mock("axios", () => ({
   get: async (searchText: string) => {
     return new Promise((resolve, reject) => {
-      if (searchText.length > 3) {
+      let queryString = searchText;
+      let usp = new URLSearchParams(queryString);
+      let s = usp.get("s");
+      let newSearchText = `${s}`;
+
+      if (newSearchText.length > 3) {
         resolve({ data: { Search: mockMovies } });
       } else {
         reject({ data: [] });
@@ -48,7 +53,7 @@ describe("getData in movieservice.ts", () => {
   test("Should get response from AxiosResponse", async () => {
     //arrange
 
-    let searchText: string = "";
+    let searchText: string = "Sebbekingen";
     //act
     let movies: IMovie[] = await getData(searchText);
 
@@ -60,11 +65,14 @@ describe("getData in movieservice.ts", () => {
   });
 
   test("Should not get response from AxiosResponse", async () => {
-    let searchText: string = "Sebbekingen";
+    //arrange
+    let searchText: string = "Se";
     let moviesFail: IMovie[] = [];
 
+    //act
     try {
       moviesFail = await getData(searchText);
+      //assert
     } catch (movies: any) {
       expect(movies.data.length).toBe(0);
     }

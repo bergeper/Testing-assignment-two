@@ -112,14 +112,15 @@ describe("handleSubmit", () => {
     //Arrange
     document.body.innerHTML = `
     <form id="searchForm">
-      <input type="text" id="searchText" placeholder="Skriv titel här" />
+      <input type="text" id="searchText" value="co" placeholder="Skriv titel här" />
       <button type="submit" id="search">Sök</button>
     </form>
     <div id="movie-container"></div>`;
 
     let spy = jest.spyOn(mainFN, "displayNoResult").mockReturnValue();
-    let searchText: string = "coolers";
-    let movies: IMovie[] = await servicesFN.getData(searchText);
+    //let searchText: string = "co";
+    //let movies: IMovie[] = [];
+    //movies = await servicesFN.getData(searchText);
 
     //Act
     await mainFN.handleSubmit();
