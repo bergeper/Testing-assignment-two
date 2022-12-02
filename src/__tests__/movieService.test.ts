@@ -35,10 +35,14 @@ let mockMovies: IMovie[] = [
 jest.mock("axios", () => ({
   get: async (searchText: string) => {
     return new Promise((resolve, reject) => {
-      let queryString = searchText;
-      let usp = new URLSearchParams(queryString);
-      let search = usp.get("s");
-      let newSearchText = `${search}`;
+      // Tried the params
+      let queryString: string = searchText;
+      let usp: URLSearchParams = new URLSearchParams(queryString);
+      let search: string | null = usp.get("s");
+      let newSearchText: string = `${search}`;
+
+      // Makes the search skip the URL, more simple solution.
+      //let newSearchText: string = searchText.substring(38);
 
       if (newSearchText.length > 3) {
         resolve({ data: { Search: mockMovies } });

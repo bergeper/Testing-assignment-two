@@ -16,16 +16,19 @@ describe("init", () => {
 
   test("Should submit html", () => {
     //Arrange
-    document.body.innerHTML = `<form id="searchForm">
-    <input type="text" id="searchText" placeholder="Skriv titel här" />
-    <button type="submit" id="search">Sök</button>
+    document.body.innerHTML = `
+    <form id="searchForm">
+      <input type="text" id="searchText" placeholder="Skriv titel här" />
+      <button type="submit" id="search">Sök</button>
     </form>`;
+
     let spy = jest.spyOn(mainFN, "handleSubmit").mockImplementation(
       () =>
         new Promise((resolve) => {
           resolve();
         })
     );
+
     mainFN.init();
 
     //Act
@@ -33,7 +36,6 @@ describe("init", () => {
 
     //Assert
     expect(spy).toHaveBeenCalled();
-    document.body.innerHTML = "";
   });
 });
 
@@ -45,7 +47,10 @@ describe("createHTML", () => {
 
   test("Should create HTML for list", async () => {
     //Arrange
+    expect.assertions(3);
+
     document.body.innerHTML = `<div id="movie-container"></div>`;
+
     let container: HTMLDivElement = document.getElementById(
       "movie-container"
     ) as HTMLDivElement;
@@ -61,7 +66,6 @@ describe("createHTML", () => {
     expect(document.querySelectorAll("div.movie").length).toBe(4);
     expect(document.querySelectorAll("h3").length).toBe(4);
     expect(document.querySelectorAll("img").length).toBe(4);
-    document.body.innerHTML = "";
   });
 });
 describe("handleSubmit", () => {
@@ -72,6 +76,7 @@ describe("handleSubmit", () => {
 
   test("Should call createHTML", async () => {
     //Arrange
+    expect.assertions(2);
     let spy = jest.spyOn(mainFN, "createHtml").mockReturnValue();
 
     document.body.innerHTML = `
@@ -87,29 +92,12 @@ describe("handleSubmit", () => {
 
     //Assert
     expect(spy).toHaveBeenCalled();
-    document.body.innerHTML = "";
-  });
-
-  test("Should call displayNoResult in catch", async () => {
-    //Arrange
-    document.body.innerHTML = `
-    <form id="searchForm">
-      <input type="text" id="searchText" placeholder="Skriv titel här" />
-      <button type="submit" id="search">Sök</button>
-    </form>
-    <div id="movie-container"></div>
-    `;
-    let spy = jest.spyOn(mainFN, "displayNoResult").mockReturnValue();
-
-    //Act
-    await mainFN.handleSubmit();
-
-    //Assert
-    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 
   test("Should call for displayNoResult in else", async () => {
     //Arrange
+    expect.assertions(2);
     document.body.innerHTML = `
     <form id="searchForm">
       <input type="text" id="searchText" value="co" placeholder="Skriv titel här" />
@@ -118,15 +106,34 @@ describe("handleSubmit", () => {
     <div id="movie-container"></div>`;
 
     let spy = jest.spyOn(mainFN, "displayNoResult").mockReturnValue();
-    //let searchText: string = "co";
-    //let movies: IMovie[] = [];
-    //movies = await servicesFN.getData(searchText);
 
     //Act
     await mainFN.handleSubmit();
 
     //Assert
     expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+  test("Should call displayNoResult in catch because value empty", async () => {
+    //Arrange
+    expect.assertions(2);
+
+    document.body.innerHTML = `
+    <form id="searchForm">
+      <input type="text" id="searchText" placeholder="Skriv titel här" />
+      <button type="submit" id="search">Sök</button>
+    </form>
+    <div id="movie-container"></div>
+    `;
+
+    let spy = jest.spyOn(mainFN, "displayNoResult").mockReturnValue();
+
+    //Act
+    await mainFN.handleSubmit();
+
+    //Assert
+    expect(spy).toHaveBeenCalled();
+    expect(spy).toHaveBeenCalledTimes(1);
   });
 });
 
@@ -138,7 +145,10 @@ describe("displayNoResult", () => {
 
   test("Should show text no results shown", () => {
     //Arrange
+    expect.assertions(2);
+
     document.body.innerHTML = `<div id="movie-container"></div>`;
+
     let container: HTMLDivElement = document.getElementById(
       "movie-container"
     ) as HTMLDivElement;
@@ -148,5 +158,6 @@ describe("displayNoResult", () => {
 
     //Assert
     expect(container.innerHTML).toBe("<p>Inga sökresultat att visa</p>");
+    expect(document.querySelectorAll("p").length).toBe(1);
   });
 });
